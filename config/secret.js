@@ -1,0 +1,1 @@
+export default process.env.BLOG_API_SECRET;
