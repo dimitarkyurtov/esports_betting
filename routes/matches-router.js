@@ -66,8 +66,9 @@ router.post('/resolve_match/:matchID', verifyToken ,verifyRole(['admin', 'result
                 await usersQueries.updateOneUser(owner._id, owner)
             }
             await betsQueries.deleteOneBet(bet._id);
-        }); 
-        res.json(bets);
+        });
+        //await matchesQueries.deleteOneMatch(match._id) 
+        res.status(201).json({bets, message: "Successfully resolved match"});
     } catch (err) {
         sendErrorResponse(req, res, 500, `Server error: ${err.message}`, err);
     }

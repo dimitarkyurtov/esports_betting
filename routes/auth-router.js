@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
             sendErrorResponse(req, res, 401, `Unable to login user: ${user._id}: ${user.name}`, err);
         }
     } catch (errors) {
-        sendErrorResponse(req, res, 400, `Invalid user data: ${errors}`, errors);
+        sendErrorResponse(req, res, 400, `Invalid user data`, errors);
     }
 
 

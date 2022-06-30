@@ -47,7 +47,28 @@ router.get('/:userId', verifyToken, async (req, res) => {
             return;
         }
         const bets = await betsQueries.findAllBetsOfUser(req.params.userId);
-        res.json(bets);
+        res.status(200).json(bets);
+    } catch (errors) {
+        sendErrorResponse(req, res, 400, `Invalid bet data: ${errors.map(e => e.message).join(', ')}`, errors);
+    }
+});
+
+router.get('/taken/:userId', verifyToken, async (req, res) => {
+    console.log(req.userId)
+    if(JSON.parse(req.userId) !== req.params.userId){
+        sendErrorResponse(req, res, 404, `Ids do not match`);
+        return;
+    }
+    const params = req.params;
+    try {
+        await indicative.validator.validate(params, { userId: 'required|regex:^[0-9a-f]{24}$' });
+        const user = await usersQueries.findOneUserById(req.params.userId);
+        if (!user) {
+            sendErrorResponse(req, res, 404, `User with ID=${req.params.userId} does not exist`);
+            return;
+        }
+        const bets = await betsQueries.findAllTakenBetsOfUser(req.params.userId);
+        res.status(200).json(bets);
     } catch (errors) {
         sendErrorResponse(req, res, 400, `Invalid bet data: ${errors.map(e => e.message).join(', ')}`, errors);
     }
@@ -88,7 +109,7 @@ router.post('/', verifyToken, async (req, res) => {
             bet.isActive = true;
             const r = await betsQueries.InsertBet(bet);
             if (r._id) {
-                res.status(201).location(`/api/bets/${r._id}`).json(bet);
+                res.status(201).location(`/api/bets/${r._id}`).json({bet, message: "Successfully created bet"});
             } else {
                 sendErrorResponse(req, res, 400, `Unable to create bet: ${bet.initialAmount}`);
             }

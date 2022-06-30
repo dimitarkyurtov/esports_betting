@@ -22,6 +22,10 @@ async function findAllBetsOfUser(id){
     return await Bets.find({owner: new ObjectID(id)});
 }
 
+async function findAllTakenBetsOfUser(id){
+    return await Bets.find({"takers.taker": new ObjectID(id)});
+}
+
 async function InsertBet(bet){
     console.log(bet)
     const newBet = new Bets(bet)
@@ -51,5 +55,6 @@ betsQueries.deleteOneBet = deleteOneBet;
 betsQueries.findAllBetsOfUser = findAllBetsOfUser;
 betsQueries.findAllBetsFiltered = findAllBetsFiltered;
 betsQueries.findAllBetsFilteredByMatch = findAllBetsFilteredByMatch;
+betsQueries.findAllTakenBetsOfUser = findAllTakenBetsOfUser;
 
 export default betsQueries;
