@@ -1,10 +1,25 @@
 import mongoose from 'mongoose';
 import Bets from './../schemas/betsSchema.js';
+import Matches from './../schemas/matchesSchema.js';
 const ObjectID  = mongoose.Types.ObjectId;
 var betsQueries = {};
 
 async function findAllBets(){
     return await Bets.find();
+}
+
+async function findAllBetsFiltered(leagues){
+    const matches = await Matches.find({leagueID: {$in: leagues.leagues}});
+    const matchesIDs = matches.map(match => match._id)
+    return await Bets.find({matchID: {$in: matchesIDs}});
+}
+
+async function findAllBetsFilteredByMatch(matchID){
+    return await Bets.find({matchID: {$in: matchID}});
+}
+
+async function findAllBetsOfUser(id){
+    return await Bets.find({owner: new ObjectID(id)});
 }
 
 async function InsertBet(bet){
@@ -33,5 +48,8 @@ betsQueries.findOneBetById = findOneBetById;
 betsQueries.InsertBet = InsertBet;
 betsQueries.updateOneBet = updateOneBet;
 betsQueries.deleteOneBet = deleteOneBet;
+betsQueries.findAllBetsOfUser = findAllBetsOfUser;
+betsQueries.findAllBetsFiltered = findAllBetsFiltered;
+betsQueries.findAllBetsFilteredByMatch = findAllBetsFilteredByMatch;
 
 export default betsQueries;

@@ -7,10 +7,12 @@ async function findAllMatches(){
     return await Matches.find();
 }
 
+async function findAllMatchesFiltered(leagues){
+    return await Matches.find({leagueID: {$in: leagues.leagues}});
+}
+
 async function InsertMatch(match){
-    console.log(match)
     const newMatch = new Matches(match)
-    console.log(newMatch);
     const newMatch2 = await newMatch.save(); 
     return newMatch2;
 }
@@ -33,5 +35,6 @@ matchesQueries.findOneMatchById = findOneMatchById;
 matchesQueries.InsertMatch = InsertMatch;
 matchesQueries.updateOneMatch = updateOneMatch;
 matchesQueries.deleteOneMatch = deleteOneMatch;
+matchesQueries.findAllMatchesFiltered = findAllMatchesFiltered;
 
 export default matchesQueries;

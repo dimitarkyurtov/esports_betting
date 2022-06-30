@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
     try {
         await indicative.validator.validate(credentials, {
             username: 'required|string|min:5',
-            password: 'required|string|min:6'
+            password: 'required|string|min:5'
         });
         try {
             const user = await usersQueries.findOneUserByUsername(credentials.username);
@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
         } catch (err) {
             console.log(`Unable to login: ${user._id}: ${user.name}`);
             console.error(err);
-            sendErrorResponse(req, res, 500, `Unable to login user: ${user._id}: ${user.name}`, err);
+            sendErrorResponse(req, res, 401, `Unable to login user: ${user._id}: ${user.name}`, err);
         }
     } catch (errors) {
         sendErrorResponse(req, res, 400, `Invalid user data: ${errors}`, errors);

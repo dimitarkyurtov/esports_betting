@@ -9,16 +9,18 @@
  */
 
 import mongodb from 'mongodb';
+import usersQueries from '../db/queries/usersQueries.js';
+import Users from '../db/schemas/usersSchema.js';
 import { replace_id } from './utils.js';
 
 export default function verifyRoleOrSelf(roles) {
   return function (req, res, next) {
     const paramUserId = req.params.userId;
-    const userId = req.userId;
+    const userId = JSON.parse(req.userId);
     const db = req.app.locals.db;
     if (!userId) next({ status: 403, message: `No userId provided.` }); //Error
     else {
-      db.collection('users').findOne({ _id: new mongodb.ObjectID(userId) }, function (error, user) {
+        Users.findOne({ _id: new mongodb.ObjectID(userId) }, function (error, user) {
         if (error) next({ status: 500, message: `Server error.`, error }); //Error
         else if (!user) next({ status: 401, message: `Invalid token.` }); //Error
         else {

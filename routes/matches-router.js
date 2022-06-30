@@ -7,14 +7,67 @@ import matchesQueries from '../db/queries/matchesQueries.js';
 import indicative from 'indicative';
 import verifyToken from './verify-token.js';
 import verifyRole from './verify-role.js';
+import betsQueries from '../db/queries/betsQueries.js';
+import usersQueries from '../db/queries/usersQueries.js';
 
 const router = express.Router();
 
 // Users API Feature
 router.get('/', async (req, res) => {
     try {
+        const leagues = req.body;
+        console.log(leagues)
         const matches = await matchesQueries.findAllMatches();
         res.json(matches);
+    } catch (err) {
+        sendErrorResponse(req, res, 500, `Server error: ${err.message}`, err);
+    }
+});
+
+router.post('/leagues', async (req, res) => {
+    try {
+        const leagues = req.body;
+        console.log(leagues)
+        const matches = await matchesQueries.findAllMatchesFiltered(leagues);
+        console.log(matches)
+        res.json(matches);
+    } catch (err) {
+        sendErrorResponse(req, res, 500, `Server error: ${err.message}`, err);
+    }
+});
+
+router.post('/resolve_match/:matchID', verifyToken ,verifyRole(['admin', 'result_user']) ,async (req, res) => {
+    const winner = req.body.winner;
+    const userId = JSON.parse(req.userId);
+    try {
+        const match = await matchesQueries.findOneMatchById(req.params.matchID);
+        if(!match){
+            sendErrorResponse(req, res, 404, `match with ID=${req.params.id} does not exist`);
+            return;
+        }
+        match.winner = winner._id;
+        await matchesQueries.updateOneMatch(req.params.matchID, match);
+        const bets = await betsQueries.findAllBetsFilteredByMatch(match._id);
+        bets.forEach(async (bet) => {
+            if(bet.winnerChosenByOwner.toString() === winner){
+                const owner = await usersQueries.findOneUserById(bet.owner);
+                owner.balance += (parseFloat(bet.initialAmount) - parseFloat(bet.currentAmount)) / parseFloat(bet.coefficient)
+                owner.balance += parseFloat(bet.initialAmount)
+                await usersQueries.updateOneUser(owner._id, owner)
+            }
+            else{
+                bet.takers.forEach(async (taker) => {
+                    const takerr = await usersQueries.findOneUserById(taker.taker);
+                    takerr.balance += taker.amount;
+                    await usersQueries.updateOneUser(takerr._id, takerr)
+                });
+                const owner = await usersQueries.findOneUserById(bet.owner);
+                owner.balance += parseFloat(bet.currentAmount)
+                await usersQueries.updateOneUser(owner._id, owner)
+            }
+            await betsQueries.deleteOneBet(bet._id);
+        }); 
+        res.json(bets);
     } catch (err) {
         sendErrorResponse(req, res, 500, `Server error: ${err.message}`, err);
     }

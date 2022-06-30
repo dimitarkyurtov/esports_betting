@@ -4,6 +4,7 @@ import { replace_id } from './utils.js';
 import mongoose from 'mongoose'
 const ObjectID  = mongoose.Types.ObjectId;
 import betsQueries from '../db/queries/betsQueries.js';
+import usersQueries from '../db/queries/usersQueries.js';
 import indicative from 'indicative';
 import verifyToken from './verify-token.js';
 import verifyRole from './verify-role.js';
@@ -20,24 +21,46 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+
+router.post('/leagues', async (req, res) => {
+    try {
+        const leagues = req.body;
+        const bets = await betsQueries.findAllBetsFiltered(leagues);
+        res.json(bets);
+    } catch (err) {
+        sendErrorResponse(req, res, 500, `Server error: ${err.message}`, err);
+    }
+});
+
+router.get('/:userId', verifyToken, async (req, res) => {
+    console.log(req.userId)
+    if(JSON.parse(req.userId) !== req.params.userId){
+        sendErrorResponse(req, res, 404, `Ids do not match`);
+        return;
+    }
     const params = req.params;
     try {
-        await indicative.validator.validate(params, { id: 'required|regex:^[0-9a-f]{24}$' });
-        const bet = await betsQueries.findOneBetById(req.params.id);
-        if (!bet) {
-            sendErrorResponse(req, res, 404, `bet with ID=${req.params.id} does not exist`);
+        await indicative.validator.validate(params, { userId: 'required|regex:^[0-9a-f]{24}$' });
+        const user = await usersQueries.findOneUserById(req.params.userId);
+        if (!user) {
+            sendErrorResponse(req, res, 404, `User with ID=${req.params.userId} does not exist`);
             return;
         }
-        res.json(bet);
+        const bets = await betsQueries.findAllBetsOfUser(req.params.userId);
+        res.json(bets);
     } catch (errors) {
         sendErrorResponse(req, res, 400, `Invalid bet data: ${errors.map(e => e.message).join(', ')}`, errors);
     }
 });
 
 // router.post('/', verifyRole(['admin']), async (req, res) => {
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     const bet = req.body;
+    if(JSON.parse(req.userId) !== bet.owner){
+        sendErrorResponse(req, res, 404, `Ids do not match`);
+        return;
+    }
+    const userId = JSON.parse(req.userId);
     try {
         await indicative.validator.validate(bet, {
             owner: 'required|regex:^[0-9a-f]{24}$',
@@ -47,6 +70,20 @@ router.post('/', async (req, res) => {
             coefficient: 'required',
         });
         try {
+            console.log(userId)
+            const user = await usersQueries.findOneUserById(userId);
+            console.log("first")
+            if(!user){
+                sendErrorResponse(req, res, 400, `Unable to create bet: ${bet.initialAmount}, no user with id ${userId}`);
+                return;
+            }
+            if(user.balance < bet.initialAmount){
+                sendErrorResponse(req, res, 400, `Unable to create bet: ${bet.initialAmount}, no sufficient funds for user with id ${userId}`);
+                return;
+            }
+            console.log("first")
+            user.balance -= bet.initialAmount;
+            await usersQueries.updateOneUser(user._id, user)
             bet.currentAmount = bet.initialAmount;
             bet.isActive = true;
             const r = await betsQueries.InsertBet(bet);
@@ -62,6 +99,63 @@ router.post('/', async (req, res) => {
         }
     } catch(errors) {
         sendErrorResponse(req, res, 400, `Invalid player data: ${errors.map(e => e.message).join(', ')}`, errors);
+    }
+});
+
+router.put('/take_bet/:id', verifyToken , async (req, res) => {
+    const userId = JSON.parse(req.userId);
+    const betId = req.params.id
+    const old = await betsQueries.findOneBetById(betId);
+    if (!old) {
+        sendErrorResponse(req, res, 404, `Bet with ID=${req.params.id} does not exist`);
+        return;
+    }
+    let amountToDec = req.body.amount;
+    let amount = parseFloat(req.body.amount) * parseFloat(old.coefficient);
+    const user = await usersQueries.findOneUserById(userId)
+    if (!user) {
+        sendErrorResponse(req, res, 404, `User with ID=${userId} does not exist`);
+        return;
+    }
+    if(old.currentAmount < amount) {
+        amount = old.currentAmount
+        amountToDec = parseFloat(amount) / parseFloat(old.coefficient)
+    }
+    if(user.balance < amount) {
+        sendErrorResponse(req, res, 404, `User with ID=${userId} does not have sufficient funds to place a bet`);
+        return;
+    }
+    let va = false;
+    old.takers.forEach(taker => {
+        if(taker.taker.toString() === userId){
+            taker.amount = parseFloat(taker.amount) + parseFloat(amount)
+            va = true
+        }
+    });
+    if(!va){
+        old.takers.push({taker: new ObjectID(userId), amount: amount})
+    }
+    old.currentAmount -= amount;
+    user.balance = parseFloat(user.balance) - parseFloat(amountToDec);
+    await usersQueries.updateOneUser(user._id, user)
+    // console.log(old)
+    try {
+        const r = await betsQueries.updateOneBet(req.params.id, old);
+        console.log(JSON.stringify(r))
+        if (r.matchedCount >= 0) {
+            delete old._id;
+            console.log(`Updated bet: ${JSON.stringify(old)}`);
+            if (r.modifiedCount === 0) {
+                console.log(`The old and the new bet are the same.`);
+            }
+            res.status(201).location(`/api/bets/${r._id}`).json(old)
+        } else {
+            sendErrorResponse(req, res, 500, `Unable to update bet: ${old._id}: ${old.initialAmount}`);
+        }
+    } catch (err) {
+        console.log(`Unable to update bet: ${old._id}: ${bet.initialAmount}`);
+        console.error(err);
+        sendErrorResponse(req, res, 500, `Unable to update bet: ${old._id}: ${old.initialAmount}`, err);
     }
 });
 

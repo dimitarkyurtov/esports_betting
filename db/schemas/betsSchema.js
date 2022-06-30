@@ -8,7 +8,10 @@ const betsSchema = new Schema({
     initialAmount: {type: Number, required: true},
     currentAmount: {type: Number, required: true},
     coefficient: {type: Number, required: true},
-    takers: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+    takers: [{
+        taker: { type: Schema.Types.ObjectId, ref: 'Users' },
+        amount: { type: Number, default: 0}
+    }],
     isActive: {type: Boolean, default: false}
 });
 
