@@ -10,6 +10,7 @@ import { Leagues } from './components/Leagues';
 import { Matches } from './components/Matches';
 import { Bets } from './components/Bets';
 import { Cart } from './components/Cart';
+import { Notification } from './components/Notification';
 
 const titlecolor = 'white';
 
@@ -18,6 +19,9 @@ function App() {
   const notification = useSelector(state => state.notification.notification)
   return (
     <div className='app-flexbox-container'>
+      <div className='notification-container'>
+        <Notification/>
+      </div>
       <Navbar/>
       {
         // notification.open && <Notification type={notification.type} message={notification.message}></Notification>

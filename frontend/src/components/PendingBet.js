@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { pendingBetActions } from '../store/pending-bet-slice';
 import { userActions } from '../store/user-slice';
 import { myBetsActions } from '../store/my-bets-slice';
+import { notificationActions } from '../store/notification-slice';
 
 export const PendingBet = ({pendingBet}) => {
     const dispatch = useDispatch();
@@ -17,7 +18,11 @@ export const PendingBet = ({pendingBet}) => {
 
     const placeBet = async () => {
         if(localStorage.getItem('user-balance') < amount){
-            //TODO: show notification
+            dispatch(notificationActions.showNotification({
+                message: `User balance: ${localStorage.getItem('user-balance')} is less than ${amount}`,
+                type: 'warning',
+                open: true
+            }))
             return;
         }
         let body = {};
@@ -34,6 +39,17 @@ export const PendingBet = ({pendingBet}) => {
             'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`
           },
         })
+        const response = await res.json();
+        console.log(res.status)
+        if(Math.floor(res.status / 100) === 2 || Math.floor(res.status / 100) === 3){
+            console.log("dsadsadasd")
+            console.log(JSON.stringify(response))
+            dispatch(notificationActions.showNotification({
+              message: response.message,
+              type: 'success',
+              open: true
+            }))
+          }
         dispatch(userActions.decrementBalance({
             balance: amount
           }))

@@ -3,6 +3,8 @@ import '../css/Match.css'
 import 'bulma/css/bulma.css';
 import { useDispatch, useSelector } from 'react-redux'
 import { pendingBetActions } from '../store/pending-bet-slice';
+import { matchesActions } from '../store/matches-slice';
+import { notificationActions } from '../store/notification-slice';
 
 export const Match = ({match}) => {
 
@@ -49,6 +51,7 @@ export const Match = ({match}) => {
     }
 
     const resolveMatch = async (team, event) => {
+        event.stopPropagation();
         let body = {};
         body.winner = team._id;
         const res = await fetch(`http://localhost:9000/api/matches/resolve_match/${match._id}`, {
@@ -60,7 +63,28 @@ export const Match = ({match}) => {
             },
         });
         const data = await res.json();
-        event.stopPropagation()
+        if(Math.floor(res.status / 100) === 2 || Math.floor(res.status / 100) === 3){
+            dispatch(notificationActions.showNotification({
+              message: data.message,
+              type: 'success',
+              open: true
+            }))
+          }
+
+        
+        let body2 = {};
+        body2.leagues = leagues.leagues.filter(league => league.isChecked).map(league => league._id);
+        console.log(body2.leagues)
+        const res2 = await fetch('http://localhost:9000/api/matches/leagues', {
+            method: 'POST',
+            body: JSON.stringify(body2),
+            headers: {
+              'Content-Type': 'application/json'    
+            },
+        });
+        const data2 = await res2.json();
+        console.log(data2)
+        dispatch(matchesActions.updateMatches({matches: data2}))
     }
 
 

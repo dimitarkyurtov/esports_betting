@@ -5,6 +5,7 @@ import '../css/AllBet.css'
 import { userActions } from '../store/user-slice';
 import { myBetsActions } from '../store/my-bets-slice';
 import { betsActions } from '../store/bets-slice';
+import { notificationActions } from '../store/notification-slice';
 
 export const AllBet = ({bet}) => {
 
@@ -46,6 +47,11 @@ export const AllBet = ({bet}) => {
     const takeBet = async () => {
         if(parseFloat(localStorage.getItem('user-balance')) < parseFloat(amount)){
             console.log(`User balance: ${localStorage.getItem('user-balance')} is less than ${amount}`)
+            dispatch(notificationActions.showNotification({
+                message: `User balance: ${localStorage.getItem('user-balance')} is less than ${amount}`,
+                type: 'warning',
+                open: true
+            }))
             //TODO: show notification
             return;
         }
@@ -68,16 +74,6 @@ export const AllBet = ({bet}) => {
             balance: amount
           }))
         localStorage.setItem('user-balance', localStorage.getItem('user-balance') - amount)
-        
-        const res2 = await fetch(`http://localhost:9000/api/bets/${localStorage.getItem('user-ID')}`, {
-            headers: {
-              'Authorization': `Bearer ${sessionStorage.getItem('jwt')}`
-            },
-          });
-          const data = await res2.json();
-          dispatch(myBetsActions.updateMyBets({
-            myBets: data,
-          }))
           let body2 = {};
           body2.leagues = leagues.leagues.filter(league => league.isChecked).map(league => league._id);
           console.log(body.leagues)
@@ -91,20 +87,6 @@ export const AllBet = ({bet}) => {
           const data3 = await res3.json();
           console.log(data3)
           dispatch(betsActions.updateBets({bets: data3}))
-        // const response = await res.json()
-        // if(response.token){
-        //   sessionStorage.setItem("jwt", response.token)
-        //   localStorage.setItem("user-name", response.user.name)
-        //   localStorage.setItem("user-role", response.user.role)
-        //   localStorage.setItem("user-ID", response.user._id)
-        //   localStorage.setItem("user-balance", response.user.balance)
-        //   dispatch(userActions.setUser({
-        //     name: response.user.name,
-        //     role: response.user.role,
-        //     balance: response.user.balance,
-        //     id: response.user._id,
-        //   }))
-        // }
     }
 
     const roundFloat = (n) => {

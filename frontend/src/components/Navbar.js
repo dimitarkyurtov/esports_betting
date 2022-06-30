@@ -4,6 +4,9 @@ import 'bulma/css/bulma.css';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../store/user-slice';
+import { Notification } from './Notification';
+import { notificationActions } from '../store/notification-slice';
+
 const styleLink = {
     textDecoration: "none"
   }
@@ -37,29 +40,42 @@ export const Navbar = () => {
   }
 
   const login = async () => {
-    let body = {};
-    body.username = username;
-    body.password = password;
-    const res = await fetch("http://localhost:9000/api/auth/login/", {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    const response = await res.json()
-    if(response.token){
-      sessionStorage.setItem("jwt", response.token)
-      localStorage.setItem("user-name", response.user.name)
-      localStorage.setItem("user-role", response.user.role)
-      localStorage.setItem("user-ID", response.user._id)
-      localStorage.setItem("user-balance", response.user.balance)
-      dispatch(userActions.setUser({
-        name: response.user.name,
-        role: response.user.role,
-        balance: response.user.balance,
-        id: response.user._id,
-      }))
+    try {
+
+      let body = {};
+      body.username = username;
+      body.password = password;
+      const res = await fetch("http://localhost:9000/api/auth/login/", {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+      
+      const response = await res.json()
+      if(Math.floor(response.code / 100) === 4 || Math.floor(response.code / 100) === 5){
+        dispatch(notificationActions.showNotification({
+          message: response.message,
+          type: 'error',
+          open: true
+        }))
+      }
+      if(response.token){
+        sessionStorage.setItem("jwt", response.token)
+        localStorage.setItem("user-name", response.user.name)
+        localStorage.setItem("user-role", response.user.role)
+        localStorage.setItem("user-ID", response.user._id)
+        localStorage.setItem("user-balance", response.user.balance)
+        dispatch(userActions.setUser({
+          name: response.user.name,
+          role: response.user.role,
+          balance: response.user.balance,
+          id: response.user._id,
+        }))
+      }
+    } catch(error) {
+      console.log("Error" + error)
     }
   }
 
