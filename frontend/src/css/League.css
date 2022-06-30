@@ -1,0 +1,68 @@
+.leagues-flexbox-item{
+    display: flex;
+    background-color: blueviolet;
+    margin-bottom: 10px;
+}
+
+.leagues-logo{
+    margin: 4px;
+    background-color: black;
+    flex-grow: 2;
+    margin-right: 10px;
+}
+
+.leagues-name{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    color: white;
+    flex-grow: 2;
+}
+
+.leagues-name-inside{
+    font-weight: bold;
+}
+
+input[type='checkbox'] {
+    margin-top: 5px;
+    width:20px;
+    height:20px;
+    background:yellow;
+    border-radius:5px;
+    border:2px solid #555;
+}
+
+/* .check[type='checkbox']:before {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #808080;
+    content: "";
+    background: #FFF;
+} */
+
+.check[type="checkbox"]:after{
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #B3B3B3 #dcddde #dcddde #B3B3B3;
+    content: "";
+    background-image: linear-gradient(135deg, #000 0%,#000 100%);
+    background-repeat: no-repeat;
+    background-position:center;
+}
+
+.check[type="checkbox"]:checked:after{
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAQAAABuW59YAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAB2SURBVHjaAGkAlv8A3QDyAP0A/QD+Dam3W+kCAAD8APYAAgTVZaZCGwwA5wr0AvcA+Dh+7UX/x24AqK3Wg/8nt6w4/5q71wAAVP9g/7rTXf9n/+9N+AAAtpJa/zf/S//DhP8H/wAA4gzWj2P4lsf0JP0A/wADAHB0Ngka6UmKAAAAAElFTkSuQmCC'), linear-gradient(135deg, yellow 0%,yellow 100%);
+}
+
+.leagues-checkbox{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}

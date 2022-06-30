@@ -1,0 +1,117 @@
+.bet-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+}
+
+.bet-navbar {
+    display: flex;
+}
+
+.bet-header{
+    height: 50px;
+    display: flex;
+    background-color: blueviolet;
+    justify-content: left;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding-left: 10px;
+    align-items: center;
+    border: 2px solid black;
+    width: 80%;
+}
+
+.bet-button{
+    background-color: blueviolet;
+    width: 20%;
+}
+
+.bet-close-button{
+    border: 2px solid black;
+    background-color: blueviolet;
+    width: 100%;
+    height: 100%;
+}
+
+.bet-body{
+    display: flex;
+    flex-direction: column;
+}
+
+.bet-first{
+    height: 40px;
+    display: flex;
+}
+
+.bet-second{
+    height: 40px;
+    margin-top: 15px;
+    display: flex;
+}
+
+.bet-winner{
+    font-weight: bold;
+    background-color: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.bet-amount{
+    width: 50%;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.bet-amount-2 {
+    background: #bdc2c6;
+    text-align: center;
+    color: #494949;
+    width: 80%;
+}
+
+.bet-match{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: yellow;
+    width: 50%;
+}
+
+.bet-coefficient{
+    background-color: green;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.bet-coefficient-2{
+    background: #bdc2c6;
+    text-align: center;
+    color: #494949;
+    width: 80%;
+}
+
+.bet-stake-button{
+    margin-top: 20px;
+    width: 100%;
+    background-color: yellow;
+    border: 3px solid yellow;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.bet-button-text-2{
+    margin-left: 6px;
+    font-weight: bold;
+}

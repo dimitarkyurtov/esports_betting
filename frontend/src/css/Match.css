@@ -1,0 +1,70 @@
+.matches-flexbox-item{
+    display: flex;
+    background-color: blueviolet;
+}
+
+.matches-team-left{
+    display: flex;
+    width: 45%;
+    background-color: white;
+    flex-grow: 5;
+    align-items: center;
+}
+
+.matches-team-left-name{
+    width: 80%;
+    display: flex;
+    font-size: 30px;
+    background-color: aqua;
+    justify-content: right;
+}
+.matches-team-left-logo{
+    width: 20%;
+    background-color: blueviolet;
+}
+
+.matches-middle{
+    width: 8%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: yellow;
+    flex-grow: 1;
+}
+
+.matches-middle-league{
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    flex-grow: 1;
+}
+
+.matches-middle-vs{
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: beige;
+    flex-grow: 1;
+    width: 50%;
+}
+
+.matches-team-right{
+    display: flex;
+    width: 45%;
+    background-color: white;
+    flex-grow: 5;
+    align-items: center;
+}
+
+.matches-team-right-name{
+    width: 80%;
+    font-size: 30px;
+    background-color: aqua;
+}
+.matches-team-right-logo{
+    width: 20%;
+    background-color: blueviolet;
+}

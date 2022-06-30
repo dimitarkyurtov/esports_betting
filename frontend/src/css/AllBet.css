@@ -1,0 +1,74 @@
+.allbet-container{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.allbet-role-1{
+    display: flex;
+    justify-content: space-around;
+    background-color: #494949;
+}
+
+.my-button{
+    color: black;
+    width: 40%;
+    font-weight: bold;
+}
+
+#fkk{
+    color: black;
+}
+
+.allbet-role-2{
+    display: flex;
+    justify-content: space-around;
+    background-color: aqua;
+}
+
+.allbet-winner{
+    width: 25%;
+    background-color: yellow;
+}
+
+.allbet-owner{
+    width: 25%;
+    background-color: green;
+}
+
+.allbet-score{
+    width: 25%;
+    background-color: violet;
+}
+
+.allbet-betAmount{
+    width: 25%;
+    background-color: blue;
+}
+
+.allbet-teams{
+    width: 33%;
+    background-color: violet;
+}
+
+.allbet-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.allbet-takers{
+    width: 33%;
+    background-color: blue;
+}
+
+.allbet-takeBet{
+    width: 33%;
+    background-color: yellow;
+}
+
+.bet-amount-2 {
+    background: #bdc2c6;
+    text-align: center;
+    color: #494949;
+    width: 80%;
+}

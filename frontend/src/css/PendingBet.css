@@ -1,0 +1,115 @@
+.pending-bet-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.pending-bet-navbar {
+    display: flex;
+}
+
+.pending-bet-header{
+    height: 50px;
+    display: flex;
+    background-color: blueviolet;
+    justify-content: left;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding-left: 10px;
+    align-items: center;
+    border: 2px solid black;
+    width: 80%;
+}
+
+.pending-bet-button{
+    background-color: blueviolet;
+    width: 20%;
+}
+
+.pending-bet-close-button{
+    border: 2px solid black;
+    background-color: blueviolet;
+    width: 100%;
+    height: 100%;
+}
+
+.pending-bet-body{
+    display: flex;
+    flex-direction: column;
+}
+
+.pending-bet-first{
+    height: 40px;
+    display: flex;
+}
+
+.pending-bet-second{
+    height: 40px;
+    margin-top: 15px;
+    display: flex;
+}
+
+.pending-bet-winner{
+    font-weight: bold;
+    background-color: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.pending-bet-amount{
+    width: 50%;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.pending-bet-amount {
+    background: #bdc2c6;
+    text-align: center;
+    color: #494949;
+    width: 80%;
+}
+
+.pending-bet-match{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: yellow;
+    width: 50%;
+}
+
+.pending-bet-coefficient{
+    background-color: green;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.pending-bet-coefficient{
+    background: #bdc2c6;
+    text-align: center;
+    color: #494949;
+    width: 80%;
+}
+
+.pending-bet-stake-button{
+    margin-top: 20px;
+    width: 100%;
+    background-color: yellow;
+    border: 3px solid yellow;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.pending-bet-button-text-2{
+    margin-left: 6px;
+    font-weight: bold;
+}
