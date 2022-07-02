@@ -134,7 +134,7 @@ export const Navbar = () => {
                 <button className='login-button' onClick={login}>Login</button>
               </div>
               <div className='nav-flexbox-item-4-containerr'>
-                <button className='register-button'>Register</button>
+                <Link to="/register" style={styleLink}><button className='register-button'>Register</button></Link>
               </div>
           </div>
          </div>

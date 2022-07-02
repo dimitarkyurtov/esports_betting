@@ -297,3 +297,7 @@ body {
   position: fixed;
   justify-content: center;
 }
+
+.white{
+  color: white;
+}

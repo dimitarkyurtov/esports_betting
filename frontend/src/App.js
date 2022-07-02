@@ -31,6 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Matches/>}/>
           <Route path="/bets" element={<Bets/>}/>
+          <Route path="/register" element={<Register/>}/>
         </Routes> 
         <Cart/>
       </div>
@@ -132,11 +133,12 @@ function Login() {
 }
 
 function Register() {
+  const dispatch = useDispatch();
   return (
-    <div>
-    <h1>Register</h1>
+    <div className='main-flexbox-item main-flexbox-item-2 center-hotizontally-div'>
+    <h1 className='white'>Register</h1>
     <Formik
-       initialValues={{ name: '', username: '', password: '', gender: '', role: 'user', img: '', description: '', status: 'active' }}
+       initialValues={{ name: '', username: '', password: '', role: 'user'}}
        validate={values => {
          const errors = {};
          if (!values.name) {
@@ -144,114 +146,83 @@ function Register() {
          } else if (!values.username){
            errors.username = 'Required';
          } else if (!values.password){
-          errors.password = 'Required';
-        } else if (!values.gender){
-          errors.gender = 'Required';
-        } else if (!values.description){
-          errors.description = 'Required';
-        } else if (values.username.length > 15){
-          errors.username = 'Too long';
-        } else if (values.password.length < 8){
+          errors.password = 'Required'; 
+        } else if (values.username.length < 5){
+          errors.username = 'Too short';
+        } else if (values.password.length < 5){
           errors.password = 'Too short';
         } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(values.password)){
           errors.password = 'Special character required';
         } else if (!/\d/.test(values.password)){
           errors.password = 'Digit required';
-        } else if (values.role !== 'User' && values.role !== 'Admin'){
+        } else if (values.role !== 'user' && values.role !== 'admin' && values.role !== 'result_user'){
           errors.role = 'Wrong role';
-        } else if (values.description.length > 512){
-          errors.description = 'Too long';
         }
          console.log(errors); 
+
+        //  if(errors){
+        //   dispatch(notificationActions.showNotification({
+        //     message: response.message,
+        //     type: 'error',
+        //     open: true
+        //   }))
+        //  }
          return errors;
        }}
        
-       onSubmit={(values) => {
-        if(!values.img){
-          if(values.gender === 'M'){
-            values.img = 'https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWFsZSUyMHN5bWJvbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60';
-          }
-          else if(values.gender === 'F'){
-            values.img = 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fGZlbWFsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60';
-          }
-        }
+       onSubmit={async (values) => {
 
-        let updatedUsr = {};
-
-        updatedUsr.firstName = values.name;
-        updatedUsr.lastName = values.name;
-        updatedUsr.username = values.username;
-        updatedUsr.password = values.password;
-        updatedUsr.gender = values.gender;
-        updatedUsr.role = values.role;
-        updatedUsr.shortDesc = values.description;
-        updatedUsr.imageUrl = values.img;
-
-        fetch(`http://localhost:9000/api/users`, {
+        const res = await fetch(`http://localhost:9000/api/users`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(updatedUsr)
+          body: JSON.stringify(values)
         })
+        const response = await res.json()
+        if(Math.floor(res.status / 100) === 4 || Math.floor(res.status / 100) === 5){
+          dispatch(notificationActions.showNotification({
+            message: response.message,
+            type: 'error',
+            open: true
+          }))
+        }
 
-        // let uuid = crypto.randomUUID();
-        // var current = new Date();
-        // values.dateCreated = current;
-        // values.dateUpdated = current;
-        console.log(values);
-        // localStorage.setItem(uuid, JSON.stringify(values));   
+        if(Math.floor(res.status / 100) === 2 || Math.floor(res.status / 100) === 3){
+          dispatch(notificationActions.showNotification({
+            message: "User registered",
+            type: 'success',
+            open: true
+          }))
+        }
+
+        console.log(values); 
        }}
      >
 
          <Form>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" className='white'>Name </label>
             <Field id="name" name="name" placeholder="Jane Doe" />
-            <label htmlFor="username">Username</label>
+            <br></br>
+            <label htmlFor="username" className='white'>Username </label>
             <Field id="username" name="username" placeholder="Jane" />
-            <label htmlFor="password">Password</label>
+            <br></br>
+            <label htmlFor="password" className='white'>Password </label>
             <Field id="password" name="password" placeholder="Jane" />
-            <div id="my-radio-group1">Gender</div>
-            <div role="group" aria-labelledby="my-radio-group">
-              <label>
-                <Field type="radio" name="gender" value="M" />
-                M
-              </label>
-              <label>
-                <Field type="radio" name="gender" value="F" />
-                F
-              </label>
-            </div>
-            <div id="my-radio-group2">Role</div>
+            <br></br>
+            <div id="my-radio-group2" className='white'>Role</div>
             <div role="group" aria-labelledby="my-radio-group2">
-              <label>
-                <Field type="radio" name="role" value="User" />
+              <label className='white'>
+                <Field type="radio" name="role" value="user" />
                 User
               </label>
-              <label>
-                <Field type="radio" name="role" value="Admin" />
+              <label className='white'>
+                <Field type="radio" name="role" value="result_user" />
+                Result user
+              </label>
+              <label className='white'>
+                <Field type="radio" name="role" value="admin" />
                 Admin
-              </label>
-            </div>
-            <label htmlFor="img">Image</label>
-            <Field id="img" name="img" placeholder="https://google.com/img.src" />
-            <br/>
-            <label htmlFor="description">Description</label>
-            <Field name="description" as="textarea"/>
-            
-            <div id="my-radio-group3">Status</div>
-            <div role="group" aria-labelledby="my-radio-group3">
-              <label>
-                <Field type="radio" name="status" value="active" />
-                active
-              </label>
-              <label>
-                <Field type="radio" name="status" value="suspended " />
-                suspended 
-              </label>
-              <label>
-                <Field type="radio" name="status" value="deactivated " />
-                deactivated 
               </label>
             </div>
             
