@@ -48,7 +48,7 @@ export const BetTaken = ({bet}) => {
                     {winner.nickName} @{roundFloat(bet.coefficient)}
                 </div>
                 <div className='bet-amount'>
-                    <input className='bet-amount-2' type="number" id="bet-amount" disabled placeholder={amount}/>
+                    <input className='bet-amount-2' type="number" id="bet-amount" disabled placeholder={"Win " + amount}/>
                 </div>
             </div>
             <div className='bet-second'>

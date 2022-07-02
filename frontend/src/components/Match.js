@@ -34,6 +34,13 @@ export const Match = ({match}) => {
     }, [leagues])
 
     const startBet = (id, name) => {
+        if(!user.id){
+            dispatch(notificationActions.showNotification({
+                message: `Must be logged in to place a bet`,
+                type: 'info',
+                open: true
+            }))
+        }
         dispatch(pendingBetActions.showBet({
             match: {
                 ...match,
@@ -92,14 +99,15 @@ export const Match = ({match}) => {
     <div>
     <div className='matches-flexbox-item'>
         <div className='matches-team-left' onClick={() => startBet(team1._id, team1.nickName)}>
+            
+            <div className='matches-left-win'>
             {
                 user && ['admin', 'result_user'].includes(user.role) && 
-                <div className='matches-left-win'>
                     <button onClick={e => {resolveMatch(team1, e)}}>
                         win
                     </button>
-                </div>
-            }  
+            }
+            </div>  
             <div className='matches-team-left-name'>
                 {team1.name}
             </div>
@@ -126,14 +134,14 @@ export const Match = ({match}) => {
             <div className='matches-team-right-name'>
                 {team2.name}
             </div>
+            <div className='matches-right-win'>
             {
                 user && ['admin', 'result_user'].includes(user.role) && 
-                <div className='matches-right-win'>
                     <button onClick={e => {resolveMatch(team2, e)}}>
                         win
                     </button>
-                </div>
             }   
+            </div>
         </div>
     </div>
     </div>

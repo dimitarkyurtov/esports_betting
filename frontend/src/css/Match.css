@@ -1,26 +1,37 @@
 .matches-flexbox-item{
     display: flex;
-    background-color: blueviolet;
+    border:2px solid white;
+    /* background-color: blueviolet; */
 }
 
 .matches-team-left{
     display: flex;
     width: 45%;
-    background-color: white;
+    /* background-color: white; */
     flex-grow: 5;
     align-items: center;
+}
+
+.matches-team-left:hover{
+    background-color: rgb(40, 36, 36);
+}
+
+.matches-team-right:hover{
+    background-color: rgb(40, 36, 36);
 }
 
 .matches-team-left-name{
     width: 80%;
     display: flex;
     font-size: 30px;
-    background-color: aqua;
+    /* background-color: aqua; */
+    color: white;
     justify-content: right;
+    margin-right: 5px;
 }
 .matches-team-left-logo{
     width: 20%;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
 }
 
 .matches-middle{
@@ -28,15 +39,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: yellow;
+    /* background-color: yellow; */
     flex-grow: 1;
 }
 
 .matches-middle-league{
-    font-size: 20px;
+    font-size: 23px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: white;
     width: 50%;
     flex-grow: 1;
 }
@@ -46,15 +58,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: beige;
+    /* background-color: beige; */
+    color: white;
     flex-grow: 1;
     width: 50%;
 }
 
 .matches-team-right{
     display: flex;
+    color: white;
     width: 45%;
-    background-color: white;
+    /* background-color: white; */
     flex-grow: 5;
     align-items: center;
 }
@@ -62,9 +76,10 @@
 .matches-team-right-name{
     width: 80%;
     font-size: 30px;
-    background-color: aqua;
+    margin-left: 5px;
+    /* background-color: aqua; */
 }
 .matches-team-right-logo{
     width: 20%;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
 }

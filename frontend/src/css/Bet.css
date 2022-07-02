@@ -62,7 +62,7 @@
 
 .bet-amount{
     width: 50%;
-    background-color: green;
+    background-color: yellow;
     display: flex;
     justify-content: center;
 }
@@ -73,11 +73,15 @@ input::-webkit-inner-spin-button {
 }
 
 .bet-amount-2 {
-    background: #bdc2c6;
+    background: white;
     text-align: center;
     color: #494949;
     width: 80%;
 }
+
+::placeholder { 
+    color: black;
+  }
 
 .bet-match{
     display: flex;
@@ -88,14 +92,14 @@ input::-webkit-inner-spin-button {
 }
 
 .bet-coefficient{
-    background-color: green;
+    background-color: yellow;
     width: 50%;
     display: flex;
     justify-content: center;
 }
 
 .bet-coefficient-2{
-    background: #bdc2c6;
+    background: white;
     text-align: center;
     color: #494949;
     width: 80%;

@@ -10,7 +10,7 @@
 .pending-bet-header{
     height: 50px;
     display: flex;
-    background-color: blueviolet;
+    background-color: gray;
     justify-content: left;
     font-size: 20px;
     font-weight: bold;
@@ -22,20 +22,22 @@
 }
 
 .pending-bet-button{
-    background-color: blueviolet;
+    background-color: gray;
     width: 20%;
 }
 
 .pending-bet-close-button{
     border: 2px solid black;
-    background-color: blueviolet;
+    background-color: gray;
     width: 100%;
     height: 100%;
 }
 
 .pending-bet-body{
+    margin-top: 4px;
     display: flex;
     flex-direction: column;
+    border-bottom: 3px solid white;
 }
 
 .pending-bet-first{
@@ -70,11 +72,24 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
+
+
 .pending-bet-amount {
-    background: #bdc2c6;
+    background: yellow;
+    text-align: center;
+    color: #494949;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.pending-bet-amount-inside{
+    background: yellow;
     text-align: center;
     color: #494949;
     width: 80%;
+    background-color: white;
 }
 
 .pending-bet-match{
@@ -86,17 +101,22 @@ input::-webkit-inner-spin-button {
 }
 
 .pending-bet-coefficient{
-    background-color: green;
+    background-color: yellow;
     width: 50%;
     display: flex;
     justify-content: center;
 }
 
-.pending-bet-coefficient{
-    background: #bdc2c6;
+.pending-bet-coefficient-inside{
+    background: yellow;
     text-align: center;
     color: #494949;
     width: 80%;
+    background-color: white;
+}
+
+.pending-bet-coefficient-inside{
+    background-color: white;
 }
 
 .pending-bet-stake-button{
@@ -107,6 +127,13 @@ input::-webkit-inner-spin-button {
     border-radius: 5px;
     display: flex;
     justify-content: center;
+    margin-bottom: 2px;
+}
+
+.pending-bet-stake-button:hover{
+    color: white;
+    background-color: teal;
+    border: 3px solid rgb(231, 51, 51);
 }
 
 .pending-bet-button-text-2{

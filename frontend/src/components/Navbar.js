@@ -110,17 +110,17 @@ export const Navbar = () => {
       <div className='nav-flexbox-item nav-flexbox-item-1'>
 
         <figure className='image is-16by9'>
-          <img className="has-ratio" width="100%" src={logo}/>
+          <img className="has-ratio" width="100%" src="https://upload.wikimedia.org/wikipedia/commons/7/74/EFbet_official_Logo_for_Wikipedia.png?20200503143156"/>
         </figure>
       </div>
       <div className='nav-flexbox-item nav-flexbox-item-2'>
         <div className='nav-flexbox-text'>
-          <Link to="/" style={styleLink}><h1 className='title is-2 wt'>Matches</h1></Link>
+          <Link to="/" style={styleLink}><h1 className='title is-2 wt'>MATCHES</h1></Link>
         </div>
       </div>
       <div className='nav-flexbox-item nav-flexbox-item-3'>
         <div className='nav-flexbox-text'>
-          <Link to="/bets" style={styleLink}><p className='title is-2 wt'>Bets</p></Link>
+          <Link to="/bets" style={styleLink}><p className='title is-2 wt'>BETS</p></Link>
         </div>
       </div>
       {

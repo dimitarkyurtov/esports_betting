@@ -52,14 +52,8 @@ export const AllBet = ({bet}) => {
                 type: 'warning',
                 open: true
             }))
-            //TODO: show notification
             return;
         }
-        // if(bet.currentAmount < parseFloat(amount) * parseFloat(bet.coefficient)){
-        //     console.log(`Bet current amount: ${bet.currentAmount} is less than ${parseFloat(amount) * parseFloat(bet.coefficient)}`)
-        //     //TODO: show notification
-        //     return;
-        // }
         let body = {};
         body.amount = amount;
         const res = await fetch(`http://localhost:9000/api/bets/take_bet/${bet._id}`, {
@@ -96,36 +90,36 @@ export const AllBet = ({bet}) => {
   return (
     <div className='allbet-container'>
         <div className='allbet-role-1'>
-            <div className='allbet-center allbet-winner'>
+            <div className=' allbet-winner'>
                 {winner.nickName} @{roundFloat(bet.coefficient)} 
             </div>
-            <div className='allbet-center allbet-owner'>
+            <div className='allbet-owner'>
                 Owner: {owner.name}
             </div>
             <div className='allbet-center allbet-score'>
-                Bet size: {roundFloat(bet.currentAmount)}/{roundFloat(bet.initialAmount)}
+                <p className='bet-size'>Bet size: {roundFloat(bet.currentAmount)}/{roundFloat(bet.initialAmount)}</p>
             </div>  
             <div className='allbet-center allbet-betAmount'>
-                <input className='bet-amount-2' type="number" id="bet-amount" onChange={e => {setAmount(e.target.value);if(!e.target.value){setAmount(0);}}} placeholder='Amount to bet'/>
+                <input className='bet-amount-2' type="number" id="bet-amountt" onChange={e => {setAmount(e.target.value);if(!e.target.value){setAmount(0);}}} placeholder='Amount to bet'/>
             </div>  
         </div>
         <div className='allbet-role-2'>
-            <div className='allbet-center allbet-teams'>
+            <div className='allbet-teams'>
                 {team1.name} - {team2.name}
             </div>
-            <div className='allbet-center allbet-takers'>
+            <div className='allbet-takers'>
                 Number of people taken the bet: {bet.takers.length}
             </div> 
             <div className='allbet-center allbet-takeBet'>
                 {
                     isLoggedIn &&
-                    <button className='my-button button is-success' id='fkk' onClick={takeBet}>
+                    <button className='my-button button is-small is-success' id='fkk' onClick={takeBet}>
                         takeBet
                     </button>  
                 }
                 {
                     !isLoggedIn &&
-                    <button className='button is-success my-button' disabled>
+                    <button className='button is-success is-small my-button' disabled>
                         takeBet
                     </button> 
                 }

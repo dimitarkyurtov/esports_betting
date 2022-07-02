@@ -85,7 +85,7 @@ export const PendingBet = ({pendingBet}) => {
                     {pendingBet.winner.name}
                 </div>
                 <div className='pending-bet-amount'>
-                    <input className='pending-bet-amount' type="number" id="bet-amount" onChange={e => {setAmount(e.target.value);if(!e.target.value){setAmount(0);}}} placeholder='Amount'/>
+                    <input className='pending-bet-amount-inside' type="number" id="bet-amount" onChange={e => {setAmount(e.target.value);if(!e.target.value){setAmount(0);}}} placeholder='Amount'/>
                 </div>
             </div>
             <div className='pending-bet-second'>
@@ -93,7 +93,7 @@ export const PendingBet = ({pendingBet}) => {
                     {pendingBet.match.opponentsNames[0]} - {pendingBet.match.opponentsNames[1]}
                 </div>
                 <div className='pending-bet-coefficient'>
-                    <input className='pending-bet-coefficient' type="number" id="bet-coefficient" onChange={e => {setCoefficient(e.target.value)}} placeholder='Coefficient'/>
+                    <input className='pending-bet-coefficient-inside' type="number" id="bet-coefficient" onChange={e => {setCoefficient(e.target.value)}} placeholder='Coefficient'/>
                 </div>
             </div>
             <div className='pending-bet-stake-button' onClick={placeBet}>

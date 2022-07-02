@@ -57,22 +57,26 @@ export const Cart = () => {
              && 
              
             <div>
-              <div className='my-bets'>
-                    Bets Owned
+              <div className='bets-owned-container'>
+                <div className='my-bets'>
+                      Bets Owned
+                </div>
+                {
+                myBets.myBets.map((bet, key) => (
+                  <Bet bet={bet} key={bet._id} />
+                ))
+                }
               </div>
-              {
-              myBets.myBets.map((bet, key) => (
-                <Bet bet={bet} key={bet._id} />
-              ))
-              }
-              <div className='my-bets'>
-                    Bets Taken
+              <div className='bets-taken-container'>
+                <div className='my-bets'>
+                      Bets Taken
+                </div>
+                {
+                myBetsTaken.map((bet, key) => (
+                  <BetTaken bet={bet} key={bet._id} />
+                ))
+                }
               </div>
-              {
-              myBetsTaken.map((bet, key) => (
-                <BetTaken bet={bet} key={bet._id} />
-              ))
-              }
             </div>
             
         }

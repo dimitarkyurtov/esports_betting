@@ -1,12 +1,20 @@
 .allbet-container{
+    
+  border: 2px solid white;
     width: 100%;
     margin-bottom: 10px;
 }
 
+.empty-div{
+    background-color: green;
+    width: 50%;
+}
+
 .allbet-role-1{
+    /* margin-top: 13px; */
     display: flex;
-    justify-content: space-around;
-    background-color: #494949;
+    /* justify-content: space-around; */
+    /* background-color: #494949; */
 }
 
 .my-button{
@@ -16,38 +24,62 @@
 }
 
 #fkk{
+    margin-bottom: 9px;
+    background-color: white;
     color: black;
+}
+
+#fkk:hover{
+    background-color: rgb(200, 200, 28);
 }
 
 .allbet-role-2{
     display: flex;
-    justify-content: space-around;
-    background-color: aqua;
+    /* justify-content: space-around; */
+    /* background-color: aqua; */
 }
 
 .allbet-winner{
-    width: 25%;
-    background-color: yellow;
+    margin-top: 10px;
+    font-weight: bold;
+    /* background-color: teal; */
+    color: white;
+    width: 33%;
+    margin-left: 5%;
+    /* background-color: yellow; */
 }
 
 .allbet-owner{
+    margin-top: 10px;
+    color: white;
     width: 25%;
-    background-color: green;
+    /* background-color: green; */
+}
+
+.bet-size{
+    margin-top: 9%;
 }
 
 .allbet-score{
+    border-right: 2px solid white;
+    /* background-color: blue; */
+    color: white;
     width: 25%;
-    background-color: violet;
+    /* background-color: violet; */
 }
 
 .allbet-betAmount{
+    color: white;
     width: 25%;
-    background-color: blue;
+    /* background-color: blue; */
 }
 
 .allbet-teams{
-    width: 33%;
-    background-color: violet;
+    /* background-color: teal; */
+    margin-left: 5%;
+    color: white;
+    width: 29%;
+    /* background-color: violet; */
 }
 
 .allbet-center{
@@ -57,13 +89,18 @@
 }
 
 .allbet-takers{
-    width: 33%;
-    background-color: blue;
+    color: white;
+    border-right: 2px solid white;
+    
+    width: 44%;
+    /* background-color: blue; */
 }
 
 .allbet-takeBet{
-    width: 33%;
-    background-color: yellow;
+    /* background-color: green; */
+    color: white;
+    width: 22%;
+    /* background-color: yellow; */
 }
 
 .bet-amount-2 {
@@ -71,4 +108,9 @@
     text-align: center;
     color: #494949;
     width: 80%;
+}
+
+#bet-amountt{
+    width: 42%;
+    margin-bottom: 5px;
 }
